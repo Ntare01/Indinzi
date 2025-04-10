@@ -464,7 +464,7 @@
 <body>
     <div class="gallery-container">
         <header>
-            <h1>Creative Portfolio</h1>
+            <h1>Explore</h1>
         </header>
         
         <div class="breadcrumb" id="breadcrumb">
@@ -488,73 +488,27 @@
                 type: 'folder',
                 items: [
                     {
-                        name: 'Photography',
+                        name: 'Images',
                         type: 'folder',
                         theme: 'category-photography',
                         icon: '📸',
                         items: [
-                            {
-                                name: 'Nature',
-                                type: 'folder',
-                                theme: 'category-photography',
-                                icon: '🌿',
-                                items: [
-                                    {
-                                        name: 'Mountain Sunset',
-                                        type: 'image',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'Beautiful sunset in the mountains'
-                                    },
-                                    {
-                                        name: 'Forest Path',
-                                        type: 'image',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'Walking path through dense forest'
-                                    }
-                                ]
-                            },
-                            {
-                                name: 'Urban',
-                                type: 'folder',
-                                theme: 'category-photography',
-                                icon: '🏙️',
-                                items: [
+                            
+                             [
                                     {
                                         name: 'City Lights',
                                         type: 'image',
                                         source: '/api/placeholder/800/600',
                                         description: 'Night photograph of city skyline'
                                     }
-                                ]
-                            }
-                        ]
+                            ]
                     },
                     {
-                        name: 'Video Projects',
+                        name: 'Videos',
                         type: 'folder',
                         theme: 'category-video',
                         icon: '🎬',
                         items: [
-                            {
-                                name: 'Client Work',
-                                type: 'folder',
-                                theme: 'category-video',
-                                icon: '💼',
-                                items: [
-                                    {
-                                        name: 'Product Promo',
-                                        type: 'video',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'Short product promotional video'
-                                    }
-                                ]
-                            },
-                            {
-                                name: 'Personal Projects',
-                                type: 'folder',
-                                theme: 'category-video',
-                                icon: '🎨',
-                                items: [
                                     {
                                         name: 'Travel Montage',
                                         type: 'video',
@@ -568,47 +522,9 @@
                                         description: 'My first short film project'
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Design Portfolio',
-                        type: 'folder',
-                        theme: 'category-design',
-                        icon: '✨',
-                        items: [
-                            {
-                                name: 'Logo Designs',
-                                type: 'image',
-                                source: '/api/placeholder/800/600',
-                                description: 'Collection of logo design work'
-                            },
-                            {
-                                name: 'UI/UX Projects',
-                                type: 'folder',
-                                theme: 'category-design',
-                                icon: '📱',
-                                items: [
-                                    {
-                                        name: 'Mobile App',
-                                        type: 'image',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'UI design for mobile application'
-                                    },
-                                    {
-                                        name: 'Website Redesign',
-                                        type: 'image',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'Before and after website redesign'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        };
-
+                     }
+            },
+                }
         // Track current path
         let currentPath = ['root'];
         
