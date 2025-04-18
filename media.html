@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Indinzi Cultural Troupe</title>
+    <title>Packages - Indinzi Cultural Troupe</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="icons/css/all.css">
     <script src="script.js" defer></script>
@@ -11,18 +11,28 @@
 <body>
     <header>
         <div class="container">
-            <h1 class="logo">Indinzi</h1>
+            <h1 class="logo">blah</h1>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="media.html">Media</a></li>
-                    <li><a href="contact.html" class="active">Contact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    <title>Media</title>
+
+    <main>
+        <section class="packages-section">
+            <div class="container">
+                <h2>Our Performances</h2>
+                <div class="packages-intro">
+                    <p>Experience the richness of Rwandan culture through our specially curated performances. Each perfomance is designed to provide an authentic and immersive cultural experience.</p>
+                </div>
+               <div>
+                <!--videos and images-->
+                <!---the style ---> 
     <style>
         * {
             margin: 0;
@@ -428,7 +438,7 @@
         }
         
         /* Custom category themes */
-        .category-photography {
+        .category-images {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
         }
         
@@ -451,11 +461,10 @@
             animation: float 2s ease-in-out infinite;
         }
     </style>
-</head>
-<body>
+    <!---the html-->
     <div class="gallery-container">
         <header>
-            <h1>Creative Portfolio</h1>
+            <h1>Explore</h1>
         </header>
         
         <div class="breadcrumb" id="breadcrumb">
@@ -471,7 +480,7 @@
         <div class="close-modal" id="closeModal">×</div>
         <div class="modal-content" id="modalContent"></div>
     </div>
-
+    <!--the script-->
     <script>
         // Sample data structure for media categories
         const mediaLibrary = {
@@ -479,38 +488,38 @@
                 type: 'folder',
                 items: [
                     {
-                        name: 'Photography',
+                        name: 'Images',
                         type: 'folder',
-                        theme: 'category-photography',
+                        theme: 'category-images',
                         icon: '📸',
                         items: [
-                                    {
-                                        name: 'Mountain Sunset',
-                                        type: 'image',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'Beautiful sunset in the mountains'
-                                    },
-                                    {
-                                        name: 'Forest Path',
-                                        type: 'image',
-                                        source: '/api/placeholder/800/600',
-                                        description: 'Walking path through dense forest'
-                                    }
-                            
-                            
-                        ]
+                       
+                        {
+                            name: 'Image 1',
+                            type: 'image',
+                            source: './images/pic1.jpeg',
+                            description: 'img1'
+                        },
+                        {
+                            name: 'Forest Path',
+                            type: 'image',
+                            source: '/api/placeholder/800/600',
+                            description: 'Walking path through dense forest'
+                              
+                        },
+                    ]
                     },
                     {
-                        name: 'Video Projects',
+                        name: 'Videos',
                         type: 'folder',
                         theme: 'category-video',
                         icon: '🎬',
                         items: [
                                     {
-                                        name: 'Product Promo',
-                                        type: 'video',
                                         source: '/api/placeholder/800/600',
-                                        description: 'Short product promotional video'
+                                    },
+                                    {
+                                        source: '/api/placeholder/800/600',
                                     }
                                 ]
                     },
@@ -772,32 +781,37 @@
         updateBreadcrumb();
         renderView();
     </script>
- <!-- Footer -->
- <footer>
-    <div class="container">
-        <div class="social-links">
-            <div class="socials">
-                <h4>Indinzi</h4>
-                <div class="social-icons">
-                    <a href="https://wa.me/250785038287" class="social-icon whatsapp">
-                        <span class="icon-text"><i class="fa-brands fa-whatsapp"></i></span>
-                    </a>
-                    <a href="https://instagram.com/___indinziculturaltroupe___" class="social-icon instagram">
-                        <span class="icon-text"><i class="fa-brands fa-instagram"></i></span>
-                    </a>
-                    <a href="https://www.tiktok.com/@indinzi_cultural_troupe" class="social-icon tiktok">
-                        <span class="icon-text"><i class="fa-brands fa-tiktok"></i></span>
-                    </a>
+              </div>
+            </div>
+    </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <div class="socials">
+                    <h4>Indinzi</h4>
+                    <div class="social-icons">
+                        <a href="https://wa.me/250785038287" class="social-icon whatsapp">
+                            <span class="icon-text"><i class="fa-brands fa-whatsapp"></i></span>
+                        </a>
+                        <a href="https://instagram.com/___indinziculturaltroupe___" class="social-icon instagram">
+                            <span class="icon-text"><i class="fa-brands fa-instagram"></i></span>
+                        </a>
+                        <a href="https://www.tiktok.com/@indinzi_cultural_troupe" class="social-icon tiktok">
+                            <span class="icon-text"><i class="fa-brands fa-tiktok"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <div class="container">
+                    <p>&copy; Indinzi Cultural Troupe. All rights reserved.</p>
+                    <p>Designed by Noella Ntare</p>
                 </div>
             </div>
         </div>
-        <div class="copyright">
-            <div class="container">
-                <p>&copy; Indinzi Cultural Troupe. All rights reserved.</p>
-                <p>Designed by Noella Ntare</p>
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>
