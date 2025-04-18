@@ -460,6 +460,57 @@
         .category-card:hover .category-icon {
             animation: float 2s ease-in-out infinite;
         }
+
+        /* Add these to your CSS */
+.section-header {
+    margin: 40px 0 20px 0;
+    font-size: 1.8rem;
+    color: #fff;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-header:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #a36aff);
+}
+
+.view-all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.view-all-content {
+    text-align: center;
+}
+
+.view-all-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.view-all-text {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.view-all:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.view-all:hover .view-all-icon,
+.view-all:hover .view-all-text {
+    color: #fff;
+}
     </style>
     <!---the html-->
     <div class="gallery-container">
@@ -527,83 +578,152 @@
         let currentPath = ['root'];
         
         // Function to render current view
-        function renderView() {
-            const contentDiv = document.getElementById('content');
-            contentDiv.innerHTML = '';
+function renderView() {
+    const contentDiv = document.getElementById('content');
+    contentDiv.innerHTML = '';
+    
+    // Find current directory based on path
+    let currentDir = mediaLibrary;
+    for (const segment of currentPath) {
+        currentDir = currentDir[segment];
+    }
+    
+    console.log("Current path:", currentPath);
+    console.log("Current directory:", currentDir);
+    
+    // Check if we're in a folder
+    if (currentDir.type === 'folder') {
+        // Create categories container if there are folders
+        const folderItems = currentDir.items.filter(item => item.type === 'folder');
+        if (folderItems.length > 0) {
+            const categoryWrapper = document.createElement('div');
+            categoryWrapper.className = 'category-wrapper';
             
-            // Find current directory based on path
-            let currentDir = mediaLibrary;
-            for (const segment of currentPath) {
-                currentDir = currentDir[segment];
-            }
+            const categoriesContainer = document.createElement('div');
+            categoriesContainer.className = 'categories';
             
-            // Check if we're in a folder
-            if (currentDir.type === 'folder') {
-                // Create categories container if there are folders
-                const folderItems = currentDir.items.filter(item => item.type === 'folder');
-                if (folderItems.length > 0) {
-                    const categoryWrapper = document.createElement('div');
-                    categoryWrapper.className = 'category-wrapper';
+            folderItems.forEach(folder => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = `category-card ${folder.theme || ''}`;
+                categoryCard.innerHTML = `
+                    <div class="category-icon">${folder.icon || '📁'}</div>
+                    <div class="category-name">${folder.name}</div>
+                `;
+                categoryCard.addEventListener('click', () => {
+                    currentPath.push('items');
+                    const index = currentDir.items.indexOf(folder);
+                    currentPath.push(index);
+                    updateBreadcrumb();
+                    renderView();
                     
-                    const categoriesContainer = document.createElement('div');
-                    categoriesContainer.className = 'categories';
+                    // Scroll to top smoothly
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+                
+                categoriesContainer.appendChild(categoryCard);
+            });
+            
+            categoryWrapper.appendChild(categoriesContainer);
+            contentDiv.appendChild(categoryWrapper);
+        }
+        
+        // Create media grid if there are media items
+        const mediaItems = currentDir.items.filter(item => item.type === 'image' || item.type === 'video');
+        if (mediaItems.length > 0) {
+            const mediaGallery = document.createElement('div');
+            mediaGallery.className = 'media-gallery';
+            
+            mediaItems.forEach(media => {
+                const mediaElement = document.createElement('div');
+                mediaElement.className = 'media-item';
+                
+                const typeBadge = media.type === 'image' ? 'Photo' : 'Video';
+                
+                if (media.type === 'image') {
+                    mediaElement.innerHTML = `
+                        <div class="media-type-badge">${typeBadge}</div>
+                        <img src="${media.source}" alt="${media.name || 'Image'}">
+                        <div class="media-info">
+                            <div class="media-title">${media.name || 'Image'}</div>
+                            <div class="media-desc">${media.description || ''}</div>
+                        </div>
+                    `;
+                } else if (media.type === 'video') {
+                    mediaElement.innerHTML = `
+                        <div class="media-type-badge">${typeBadge}</div>
+                        <video src="${media.source}" muted loop></video>
+                        <div class="media-info">
+                            <div class="media-title">${media.name || 'Video'}</div>
+                            <div class="media-desc">${media.description || ''}</div>
+                        </div>
+                    `;
                     
-                    folderItems.forEach(folder => {
-                        const categoryCard = document.createElement('div');
-                        categoryCard.className = `category-card ${folder.theme || ''}`;
-                        categoryCard.innerHTML = `
-                            <div class="category-icon">${folder.icon || '📁'}</div>
-                            <div class="category-name">${folder.name}</div>
-                        `;
-                        categoryCard.addEventListener('click', () => {
-                            currentPath.push('items');
-                            const index = currentDir.items.indexOf(folder);
-                            currentPath.push(index);
-                            updateBreadcrumb();
-                            renderView();
-                            
-                            // Scroll to top smoothly
-                            window.scrollTo({
-                                top: 0,
-                                behavior: 'smooth'
-                            });
-                        });
-                        
-                        categoriesContainer.appendChild(categoryCard);
+                    // Auto play video on hover
+                    mediaElement.addEventListener('mouseenter', () => {
+                        const video = mediaElement.querySelector('video');
+                        video.play();
                     });
                     
-                    categoryWrapper.appendChild(categoriesContainer);
-                    contentDiv.appendChild(categoryWrapper);
+                    mediaElement.addEventListener('mouseleave', () => {
+                        const video = mediaElement.querySelector('video');
+                        video.pause();
+                    });
                 }
                 
-                // Create media grid if there are media items
-                const mediaItems = currentDir.items.filter(item => item.type === 'image' || item.type === 'video');
-                if (mediaItems.length > 0) {
+                mediaElement.addEventListener('click', () => {
+                    openModal(media);
+                });
+                
+                mediaGallery.appendChild(mediaElement);
+            });
+            
+            contentDiv.appendChild(mediaGallery);
+        }
+        
+        // NEW CODE: Add preview of items in subfolders
+        if (currentPath.length === 1) { // Only on home screen
+            currentDir.items.forEach(folder => {
+                if (folder.type === 'folder' && folder.items && folder.items.length > 0) {
+                    // Create section header
+                    const sectionHeader = document.createElement('h2');
+                    sectionHeader.textContent = folder.name;
+                    sectionHeader.className = 'section-header';
+                    contentDiv.appendChild(sectionHeader);
+                    
+                    // Create gallery for this section
                     const mediaGallery = document.createElement('div');
                     mediaGallery.className = 'media-gallery';
                     
-                    mediaItems.forEach(media => {
+                    // Get up to 3 items from this folder to preview
+                    const previewItems = folder.items.slice(0, 3);
+                    
+                    previewItems.forEach(media => {
                         const mediaElement = document.createElement('div');
                         mediaElement.className = 'media-item';
                         
-                        const typeBadge = media.type === 'image' ? 'Photo' : 'Video';
+                        // Determine type and set appropriate badge
+                        const isVideo = media.type === 'video' || 
+                                      (!media.type && media.source.match(/\.(mp4|webm|mov)$/i));
+                        const mediaType = isVideo ? 'video' : 'image';
+                        const typeBadge = isVideo ? 'Video' : 'Photo';
                         
-                        if (media.type === 'image') {
+                        if (mediaType === 'image') {
                             mediaElement.innerHTML = `
                                 <div class="media-type-badge">${typeBadge}</div>
-                                <img src="${media.source}" alt="${media.name}">
+                                <img src="${media.source}" alt="${media.name || 'Image'}">
                                 <div class="media-info">
-                                    <div class="media-title">${media.name}</div>
-                                    <div class="media-desc">${media.description}</div>
+                                    <div class="media-title">${media.name || 'Image'}</div>
                                 </div>
                             `;
-                        } else if (media.type === 'video') {
+                        } else {
                             mediaElement.innerHTML = `
                                 <div class="media-type-badge">${typeBadge}</div>
                                 <video src="${media.source}" muted loop></video>
                                 <div class="media-info">
-                                    <div class="media-title">${media.name}</div>
-                                    <div class="media-desc">${media.description}</div>
+                                    <div class="media-title">${media.name || 'Video'}</div>
                                 </div>
                             `;
                             
@@ -620,162 +740,54 @@
                         }
                         
                         mediaElement.addEventListener('click', () => {
-                            openModal(media);
+                            openModal({...media, type: mediaType});
                         });
                         
                         mediaGallery.appendChild(mediaElement);
                     });
                     
-                    contentDiv.appendChild(mediaGallery);
-                }
-                
-                // If folder is empty
-                if (currentDir.items.length === 0) {
-                    const emptyState = document.createElement('div');
-                    emptyState.className = 'empty-state';
-                    emptyState.innerHTML = `
-                        <div>No content found in this category</div>
-                        <p>This section is currently empty</p>
-                    `;
-                    contentDiv.appendChild(emptyState);
-                }
-            }
-        }
-        
-        // Update breadcrumb based on current path
-        function updateBreadcrumb() {
-            const breadcrumb = document.getElementById('breadcrumb');
-            breadcrumb.innerHTML = '';
-            
-            let pathSoFar = [];
-            let displayPath = [];
-            
-            // Add Home
-            const homeSpan = document.createElement('span');
-            homeSpan.textContent = 'Home';
-            homeSpan.dataset.path = 'root';
-            homeSpan.addEventListener('click', () => {
-                currentPath = ['root'];
-                updateBreadcrumb();
-                renderView();
-            });
-            breadcrumb.appendChild(homeSpan);
-            pathSoFar.push('root');
-            
-            // Get folder names for breadcrumb
-            for (let i = 1; i < currentPath.length; i += 2) {
-                if (i + 1 < currentPath.length) {
-                    let folderIndex = currentPath[i + 1];
-                    pathSoFar.push('items');
-                    pathSoFar.push(folderIndex);
-                    
-                    let tempDir = mediaLibrary;
-                    for (const segment of pathSoFar) {
-                        tempDir = tempDir[segment];
+                    // Add "View All" button
+                    if (folder.items.length > 3) {
+                        const viewAllWrapper = document.createElement('div');
+                        viewAllWrapper.className = 'media-item view-all';
+                        viewAllWrapper.innerHTML = `
+                            <div class="view-all-content">
+                                <div class="view-all-icon">+</div>
+                                <div class="view-all-text">View All (${folder.items.length})</div>
+                            </div>
+                        `;
+                        viewAllWrapper.addEventListener('click', () => {
+                            currentPath.push('items');
+                            const index = currentDir.items.indexOf(folder);
+                            currentPath.push(index);
+                            updateBreadcrumb();
+                            renderView();
+                            
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                            });
+                        });
+                        mediaGallery.appendChild(viewAllWrapper);
                     }
                     
-                    displayPath.push(tempDir.name);
-                    
-                    // Add separator
-                    const separator = document.createElement('span');
-                    separator.textContent = '›';
-                    separator.className = 'separator';
-                    breadcrumb.appendChild(separator);
-                    
-                    // Add folder name
-                    const folderSpan = document.createElement('span');
-                    folderSpan.textContent = tempDir.name;
-                    
-                    // Create a copy of the current path up to this folder
-                    const targetPath = [...pathSoFar];
-                    
-                    folderSpan.addEventListener('click', () => {
-                        currentPath = [...targetPath];
-                        updateBreadcrumb();
-                        renderView();
-                    });
-                    breadcrumb.appendChild(folderSpan);
+                    contentDiv.appendChild(mediaGallery);
                 }
-            }
+            });
         }
         
-        // Modal functionality
-        function openModal(media) {
-            const modal = document.getElementById('mediaModal');
-            const modalContent = document.getElementById('modalContent');
-            
-            modalContent.innerHTML = '';
-            
-            if (media.type === 'image') {
-                modalContent.innerHTML = `
-                    <img src="${media.source}" alt="${media.name}">
-                    <div class="media-caption">${media.name}</div>
-                `;
-            } else if (media.type === 'video') {
-                modalContent.innerHTML = `
-                    <video src="${media.source}" controls autoplay></video>
-                    <div class="media-caption">${media.name}</div>
-                `;
-            }
-            
-            modal.style.display = 'flex';
-            
-            // Add small delay before adding active class for animation
-            setTimeout(() => {
-                modal.classList.add('active');
-            }, 10);
+        // If folder is empty
+        if (currentDir.items.length === 0) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <div>No content found in this category</div>
+                <p>This section is currently empty</p>
+            `;
+            contentDiv.appendChild(emptyState);
         }
-        
-        // Close modal
-        document.getElementById('closeModal').addEventListener('click', () => {
-            const modal = document.getElementById('mediaModal');
-            modal.classList.remove('active');
-            
-            // Add small delay before hiding modal
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        });
-        
-        // Close modal when clicking outside content
-        document.getElementById('mediaModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('mediaModal')) {
-                const modal = document.getElementById('mediaModal');
-                modal.classList.remove('active');
-                
-                // Add small delay before hiding modal
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 300);
-            }
-        });
-        
-        // Stop video playback when modal is closed
-        document.getElementById('closeModal').addEventListener('click', () => {
-            const video = document.querySelector('#modalContent video');
-            if (video) {
-                video.pause();
-            }
-        });
-        
-        // Escape key to close modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const modal = document.getElementById('mediaModal');
-                if (modal.style.display === 'flex') {
-                    modal.classList.remove('active');
-                    
-                    // Add small delay before hiding modal
-                    setTimeout(() => {
-                        modal.style.display = 'none';
-                    }, 300);
-                }
-            }
-        });
-        
-        // Initial render
-        updateBreadcrumb();
-        renderView();
+    }
+}
     </script>
               </div>
             </div>
