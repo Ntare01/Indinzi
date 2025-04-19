@@ -9,7 +9,7 @@
 
 header {
     display: flex;
-    align-items: left;
+    align-items:end;
     padding: 10px 20px;
     /* Other header styling */
   }
@@ -22,7 +22,6 @@ header {
   .logo img {
     height: auto; /* Adjust based on your design needs */
     width: 180px;
-    display: block;
 
   }
 
@@ -85,13 +84,13 @@ header {
     animation: fadeInDown 0.8s ease-out 0.5s both;
     display: flex;
     justify-content: space-between;
-    align-items: left;
+    align-items: end;
 }
 
 header .container {
     display: flex;
     justify-content: space-between;
-    align-items: left;
+    align-items: end;
 }
 
 header h1 {
@@ -103,7 +102,7 @@ header h1 {
 /* Navigation Styles */
 .nav-menu {
     display: flex;
-    align-items: center;
+    align-items: end;
   }
   
   .nav-links {
