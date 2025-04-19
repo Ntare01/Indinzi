@@ -85,13 +85,13 @@ header {
     animation: fadeInDown 0.8s ease-out 0.5s both;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
 }
 
 header .container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
 }
 
 header h1 {
