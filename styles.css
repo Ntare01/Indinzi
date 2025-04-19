@@ -15,13 +15,23 @@ header {
   }
   
   .logo {
-    margin-right: auto; /* Pushes other header elements to the right */
+    margin-right: auto;
+    padding: 10px 0; /* Pushes other header elements to the right */
   }
   
   .logo img {
-    max-height: 100px; /* Adjust based on your design needs */
-    width: auto;
+    height: auto; /* Adjust based on your design needs */
+    width: 180px;
+    display: block;
+
   }
+
+  /* Mobile responsive adjustment */
+@media (max-width: 768px) {
+    .logo img {
+        width: 140px; /* Slightly smaller on mobile */
+    }
+}
   
 * {
     box-sizing: border-box;
