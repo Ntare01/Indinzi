@@ -1,9 +1,9 @@
 :root {
-    --primary-color: #8b560f;
-    --secondary-color: #d19b25;
-    --accent-color: #f0a10d;
-    --background-color: #ECF0F1;
-    --text-color: #6b4204;
+    --primary-color: #4F46E5;
+    --secondary-color:#6B7280;
+    --accent-color:#F472B6;
+    --background-color: #F9FAFB;
+    --text-color: #111827;
     --profile-bg: #FFFFFF;
 }
 
@@ -262,7 +262,7 @@ nav a:hover {
 }
 
 .cta-button:hover {
-    background-color: #704607;
+    background-color: var(--secondary-color) ;
 }
 
 .package-preview {
@@ -407,7 +407,7 @@ audio, video {
 
 
 footer {
-    background-color: #8b560f;
+    background-color: var(--secondary-color);
     color: #ECF0F1;
     padding: 30px 0 0;
     font-family: 'Arial', sans-serif;
@@ -445,7 +445,7 @@ footer {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: #8b560f;
+    background-color: var(--secondary-color);
     color: #f1e1c8;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -455,11 +455,11 @@ footer {
 .social-icon:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #5e3705;
+    background-color: var(--secondary-color);
 }
 
 .copyright {
-    background-color: #8b560f;
+    background-color:var(--secondary-color);
     padding: 15px 0;
     margin-top: 20px;
     width: 100%; /* Make it full width */
