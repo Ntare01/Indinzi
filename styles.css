@@ -9,19 +9,18 @@
 
 header {
     display: flex;
-    align-items:end;
+    align-items:center;
     padding: 10px 20px;
     /* Other header styling */
   }
   
   .logo {
-    margin-right: auto;
-    padding: 10px 0; /* Pushes other header elements to the right */
+    margin-right: auto; /* Pushes other header elements to the right */
   }
   
   .logo img {
     height: auto; /* Adjust based on your design needs */
-    width: 180px;
+    width: 100px;
 
   }
 
@@ -84,13 +83,13 @@ header {
     animation: fadeInDown 0.8s ease-out 0.5s both;
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: center;
 }
 
 header .container {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: center;
 }
 
 header h1 {
@@ -102,7 +101,7 @@ header h1 {
 /* Navigation Styles */
 .nav-menu {
     display: flex;
-    align-items: end;
+    align-items: center;
   }
   
   .nav-links {
