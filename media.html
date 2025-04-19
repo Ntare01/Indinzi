@@ -466,6 +466,72 @@
         .category-card:hover .category-icon {
             animation: float 2s ease-in-out infinite;
         }
+
+        /* Add these styles at the end of your existing CSS */
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.prev-button {
+    left: 20px;
+}
+
+.next-button {
+    right: 20px;
+}
+
+.prev-button:hover, .next-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+    .prev-button, .next-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+    
+    .prev-button {
+        left: 10px;
+    }
+    
+    .next-button {
+        right: 10px;
+    }
+    
+    /* Make buttons semi-transparent on mobile to not obstruct content */
+    .prev-button, .next-button {
+        opacity: 0.7;
+    }
+}
+
+/* Add an indicator for which item is being viewed */
+.modal-pagination {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
     </style>
     <!---the html-->
     <div class="gallery-container">
@@ -484,8 +550,11 @@
     
     <div class="modal" id="mediaModal">
         <div class="close-modal" id="closeModal">×</div>
+        <div class="prev-button" id="prevButton">❮</div>
+        <div class="next-button" id="nextButton">❯</div>
         <div class="modal-content" id="modalContent"></div>
     </div>
+
     <!--the script-->
     <script>
         // Sample data structure for media categories
@@ -675,6 +744,9 @@
         // Track current path
         let currentPath = ['root'];
         
+        let currentMediaItems = [];
+        let currentMediaIndex = 0;
+
         // Function to render current view
         function renderView() {
             const contentDiv = document.getElementById('content');
@@ -849,33 +921,101 @@
         }
         
         // Modal functionality
-        function openModal(media) {
-            const modal = document.getElementById('mediaModal');
-            const modalContent = document.getElementById('modalContent');
-            
-            modalContent.innerHTML = '';
-            
-            if (media.type === 'image') {
-                modalContent.innerHTML = `
-                    <img src="${media.source}" alt="${media.name}">
-                    <div class="media-caption">${media.name}</div>
-                `;
-            } else if (media.type === 'video') {
-                modalContent.innerHTML = `
-                    <video src="${media.source}" controls autoplay></video>
-                    <div class="media-caption">${media.name}</div>
-                `;
-            }
-            
-            modal.style.display = 'flex';
-            
-            // Add small delay before adding active class for animation
-            setTimeout(() => {
-                modal.classList.add('active');
-            }, 10);
-        }
+        // Replace your existing openModal function with this one
+function openModal(media) {
+    const modal = document.getElementById('mediaModal');
+    
+    // Get all current media items and find the index of the clicked one
+    let currentDir = mediaLibrary;
+    for (const segment of currentPath) {
+        currentDir = currentDir[segment];
+    }
+    
+    currentMediaItems = currentDir.items.filter(item => item.type === 'image' || item.type === 'video');
+    currentMediaIndex = currentMediaItems.findIndex(item => item.source === media.source);
+    
+    updateModalContent();
+    
+    modal.style.display = 'flex';
+    
+    // Add small delay before adding active class for animation
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 10);
+}
         
         // Close modal
+        // Add this new function after openModal
+function updateModalContent() {
+    const modalContent = document.getElementById('modalContent');
+    const media = currentMediaItems[currentMediaIndex];
+    
+    modalContent.innerHTML = '';
+    
+    if (media.type === 'image') {
+        modalContent.innerHTML = `
+            <img src="${media.source}" alt="${media.name}">
+            <div class="media-caption">${media.name}</div>
+            <div class="modal-pagination">${currentMediaIndex + 1} / ${currentMediaItems.length}</div>
+        `;
+    } else if (media.type === 'video') {
+        modalContent.innerHTML = `
+            <video src="${media.source}" controls autoplay></video>
+            <div class="media-caption">${media.name}</div>
+            <div class="modal-pagination">${currentMediaIndex + 1} / ${currentMediaItems.length}</div>
+        `;
+    }
+    
+    // Hide navigation buttons if there's only one item
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    
+    if (currentMediaItems.length <= 1) {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+    } else {
+        prevButton.style.display = 'flex';
+        nextButton.style.display = 'flex';
+    }
+}
+
+// Function to navigate to previous item
+function prevItem() {
+    if (currentMediaItems.length <= 1) return;
+    
+    // Stop video if playing
+    const video = document.querySelector('#modalContent video');
+    if (video) {
+        video.pause();
+    }
+    
+    currentMediaIndex--;
+    if (currentMediaIndex < 0) {
+        currentMediaIndex = currentMediaItems.length - 1;
+    }
+    
+    updateModalContent();
+}
+
+// Function to navigate to next item
+function nextItem() {
+    if (currentMediaItems.length <= 1) return;
+    
+    // Stop video if playing
+    const video = document.querySelector('#modalContent video');
+    if (video) {
+        video.pause();
+    }
+    
+    currentMediaIndex++;
+    if (currentMediaIndex >= currentMediaItems.length) {
+        currentMediaIndex = 0;
+    }
+    
+    updateModalContent();
+}
+
+
         document.getElementById('closeModal').addEventListener('click', () => {
             const modal = document.getElementById('mediaModal');
             modal.classList.remove('active');
@@ -908,23 +1048,79 @@
         });
         
         // Escape key to close modal
+       
+        
+        // Initial render
+        updateBreadcrumb();
+        renderView();// Replace your existing keydown event listener with this one
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const modal = document.getElementById('mediaModal');
-                if (modal.style.display === 'flex') {
+            const modal = document.getElementById('mediaModal');
+            if (modal.style.display === 'flex') {
+                if (e.key === 'Escape') {
                     modal.classList.remove('active');
                     
                     // Add small delay before hiding modal
                     setTimeout(() => {
                         modal.style.display = 'none';
                     }, 300);
+                    
+                    // Stop video if playing
+                    const video = document.querySelector('#modalContent video');
+                    if (video) {
+                        video.pause();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    prevItem();
+                } else if (e.key === 'ArrowRight') {
+                    nextItem();
                 }
             }
         });
+
+        // Add this function before updateBreadcrumb() and renderView() at the end of your script
+function initTouchGestures() {
+    const modal = document.getElementById('mediaModal');
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    modal.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    modal.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+        // Minimum distance required for swipe (in pixels)
+        const minSwipeDistance = 50;
+        const swipeDistance = touchEndX - touchStartX;
         
-        // Initial render
-        updateBreadcrumb();
-        renderView();
+        if (Math.abs(swipeDistance) >= minSwipeDistance) {
+            if (swipeDistance > 0) {
+                // Swipe right - show previous item
+                prevItem();
+            } else {
+                // Swipe left - show next item
+                nextItem();
+            }
+        }
+    }
+}
+
+// Add button event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    initTouchGestures();
+    
+    // Add click handlers for navigation buttons
+    document.getElementById('prevButton').addEventListener('click', prevItem);
+    document.getElementById('nextButton').addEventListener('click', nextItem);
+});
+
+// Then your existing initial render calls
+updateBreadcrumb();
+renderView();
     </script>
               </div>
             </div>
