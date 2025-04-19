@@ -691,3 +691,19 @@ textarea:focus {
         padding: 20px;
     }
 }
+
+/* Your existing skills-table CSS remains the same for desktop */
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .skills-table {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    /* Target child elements inside skills-table */
+    .skills-table > * {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
