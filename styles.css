@@ -326,7 +326,7 @@ nav a:hover {
 
 .profile-content {
     display: flex;
-    gap: 2rem;
+    gap: 20px;
     align-items: flex-start;
 }
 
@@ -698,12 +698,17 @@ textarea:focus {
 @media (max-width: 768px) {
     .profile-content {
       flex-direction: column;
-      width: 100%;
+      align-items: center;
+      text-align: center;
     }
     
     /* Target child elements inside skills-table */
     .profile-content > * {
       width: 100%;
       margin-bottom: 15px;
+    }
+    
+    .skills-table {
+        width: 100%;
     }
   }
