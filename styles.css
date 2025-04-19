@@ -696,13 +696,13 @@ textarea:focus {
 
 /* Media query for mobile devices */
 @media (max-width: 768px) {
-    .skills-table {
+    .profile-info {
       flex-direction: column;
       width: 100%;
     }
     
     /* Target child elements inside skills-table */
-    .skills-table > * {
+    .profile-info > * {
       width: 100%;
       margin-bottom: 15px;
     }
