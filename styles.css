@@ -7,13 +7,22 @@
     --profile-bg: #FFFFFF;
 }
 
-.logo {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: none;
-}
-
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    /* Other header styling */
+  }
+  
+  .logo {
+    margin-right: auto; /* Pushes other header elements to the right */
+  }
+  
+  .logo img {
+    max-height: 50px; /* Adjust based on your design needs */
+    width: auto;
+  }
+  
 * {
     box-sizing: border-box;
     margin: 0;
