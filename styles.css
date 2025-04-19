@@ -29,7 +29,7 @@ header {
   /* Mobile responsive adjustment */
 @media (max-width: 768px) {
     .logo img {
-        width: 140px; /* Slightly smaller on mobile */
+        width: 80px; /* Slightly smaller on mobile */
     }
 }
   
